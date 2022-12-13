@@ -1,8 +1,16 @@
-# Getting Started with Create React App
+# TRAVEL PARTNER
+
+This project app is a Travel Companion App which uses Google Maps API & Google Places API, fetching API data based on the location, data filtering and fetching Restaurants, Hotels & Attractions.
+
+## Technologies Uses
+
+REACT JS, MATERIAL UI AND RAPID API
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Available ScriptS
 
 In the project directory, you can run:
 

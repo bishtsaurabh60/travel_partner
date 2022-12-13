@@ -1,0 +1,13 @@
+body{
+   overflow-y: scroll;
+   font-family: 'Courier New', Courier, monospace;
+}
+
+body::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome browsers */
+}
+
+body {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;  /* mozilla */
+}
