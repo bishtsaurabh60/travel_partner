@@ -9,8 +9,9 @@ const sxStyle = ({ theme }) => ({
     marginTop: theme.spacing(2),
   },
   loading: {
-    height: "400px",
+    height:'400px',
     display: "flex",
+    flexDirection:'column',
     justifyContent: "center",
     alignItems: "center",
   },

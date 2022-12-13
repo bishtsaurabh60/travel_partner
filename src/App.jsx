@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Box, CircularProgress, CssBaseline, Grid } from "@mui/material";
 import Header from "./components/Header/Header";
-import List from "./components/List/List";
-import Map from "./components/Map/Map";
 import { getPlaceData } from "./api/apis";
-import './style.css';
+import "./style.css";
+import SkeletonLoad from "./components/skeleton/SkeletonLoad";
+
+const List = React.lazy(() => import("./components/List/List"));
+const Map = React.lazy(() => import("./components/Map/Map"));
 
 const App = () => {
   const [type, setType] = useState("restaurants");
   const [rates, setRates] = useState(0);
-  
+
   const [coordinates, setCoordinates] = useState();
   const [bounds, setBounds] = useState({});
-  
+
   const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [places, setPlaces] = useState([]);
 
@@ -27,31 +29,29 @@ const App = () => {
           setCoordinates({ lat: latitude, lng: longitude });
         }
       );
-    } 
-    }, []);
+    }
+  }, []);
 
   useEffect(() => {
     if (Number(rates)) {
       const filtered = places?.filter((place) => place.rating > rates);
       setFilteredPlaces(filtered);
-    }
-    else setFilteredPlaces([]);
+    } else setFilteredPlaces([]);
   }, [rates]);
 
   useEffect(() => {
-    if(bounds?.sw && bounds?.ne){
-    setIsLoading(true);
+    if (bounds?.sw && bounds?.ne) {
+      setIsLoading(true);
 
-    getPlaceData(type,bounds.sw, bounds.ne)
-     .then((data) => {
-       setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
-       setFilteredPlaces([]);
-       setRates(0); 
-       setIsLoading(false);
-    });
-   }
+      getPlaceData(type, bounds.sw, bounds.ne).then((data) => {
+        setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+        setFilteredPlaces([]);
+        setRates(0);
+        setIsLoading(false);
+      });
+    }
   }, [type, bounds]);
-  
+
   const onLoad = (autoC) => {
     setAutocomplete(autoC);
   };
@@ -61,7 +61,7 @@ const App = () => {
     const lng = autocomplete.getPlace().geometry.location.lng();
     setCoordinates({ lat, lng });
   };
-  
+
   return (
     <>
       <CssBaseline />
@@ -69,15 +69,31 @@ const App = () => {
       {coordinates ? (
         <Grid container spacing={3} sx={{ width: "100%" }}>
           <Grid item xs={12} md={4}>
-            <List
-              isLoading={isLoading}
-              childClicked={childClicked}
-              places={filteredPlaces.length ? filteredPlaces : places}
-              type={type}
-              setType={setType}
-              rates={rates}
-              setRates={setRates}
-            />
+            <Suspense
+              fallback={
+                <Box
+                  sx={{
+                    height: "100vh",
+                    width:'100%',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <SkeletonLoad/>
+                </Box>
+              }
+            >
+              <List
+                isLoading={isLoading}
+                childClicked={childClicked}
+                places={filteredPlaces.length ? filteredPlaces : places}
+                type={type}
+                setType={setType}
+                rates={rates}
+                setRates={setRates}
+              />
+            </Suspense>
           </Grid>
           <Grid
             item
@@ -89,13 +105,28 @@ const App = () => {
               alignItems: "center",
             }}
           >
-            <Map
-              setChildClicked={setChildClicked}
-              setCoordinates={setCoordinates}
-              setBounds={setBounds}
-              coordinates={coordinates}
-              places={filteredPlaces.length ? filteredPlaces : places}
-            />
+            <Suspense
+              fallback={
+                <Box
+                  sx={{
+                    height: "95vh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <CircularProgress size="5rem" />
+                </Box>
+              }
+            >
+              <Map
+                setChildClicked={setChildClicked}
+                setCoordinates={setCoordinates}
+                setBounds={setBounds}
+                coordinates={coordinates}
+                places={filteredPlaces.length ? filteredPlaces : places}
+              />
+            </Suspense>
           </Grid>
         </Grid>
       ) : (
