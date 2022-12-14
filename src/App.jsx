@@ -3,7 +3,6 @@ import { Box, CircularProgress, CssBaseline, Grid } from "@mui/material";
 import Header from "./components/Header/Header";
 import { getPlaceData } from "./api/apis";
 import "./style.css";
-import SkeletonLoad from "./components/skeleton/SkeletonLoad";
 
 const List = React.lazy(() => import("./components/List/List"));
 const Map = React.lazy(() => import("./components/Map/Map"));
@@ -80,7 +79,7 @@ const App = () => {
                     alignItems: "center",
                   }}
                 >
-                  <SkeletonLoad/>
+                  Loading....
                 </Box>
               }
             >
