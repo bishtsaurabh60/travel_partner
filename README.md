@@ -6,6 +6,10 @@ This project app is a Travel Companion App which uses Google Maps API & Google P
 
 REACT JS, MATERIAL UI AND RAPID API
 
+## Demo
+
+### Check out the [Live Demo](https://basic-calculator-bisht60.netlify.app/)
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
