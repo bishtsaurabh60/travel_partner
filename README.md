@@ -8,7 +8,7 @@ REACT JS, MATERIAL UI AND RAPID API
 
 ## Demo
 
-### Check out the [Live Demo](https://basic-calculator-bisht60.netlify.app/)
+### Check out the [Live Demo](https://travel-partner-bisht60.netlify.app/)
 
 ## Getting Started with Create React App
 
